@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head><title>Descargar SICOVESTO</title></head>
+<body>
+  <h1>Instalar SICOVESTO</h1>
+  <p>Versión: 1.0.1.0</p> <!-- Actualiza la versión aquí -->
+
+  <h2>Instrucciones de Instalación:</h2>
+  <ol>
+    <li>
+      <strong>Importante (Primera Vez): Instalar Certificado de Confianza</strong><br>
+      Como esta versión usa un certificado de prueba, necesitas decirle a Windows que confíe en él:<br>
+      a. Descarga el certificado: <a href="SicovestoSetup_TemporaryKey.cer" download>SicovestoSetup_TemporaryKey.cer</a><br> <!-- Enlace al .cer -->
+      b. Haz doble clic en el archivo descargado (`.cer`).<br>
+      c. Presiona "Instalar certificado...".<br>
+      d. Elige "Máquina local" y presiona Siguiente.<br>
+      e. Selecciona "Colocar todos los certificados en el siguiente almacén", presiona "Examinar...", elige "Editores de confianza" (Trusted Publishers), presiona Aceptar y luego Siguiente.<br>
+      f. Presiona "Finalizar". Si te pide confirmación de seguridad, acepta (Sí).
+    </li>
+    <li>
+      <strong>Instalar la Aplicación:</strong><br>
+      Haz clic en el siguiente enlace. Windows te preguntará si quieres instalar SICOVESTO.<br>
+      <!-- El enlace ms-appinstaller -->
+      <a href="ms-appinstaller:?source=https://valenrusso.github.io/sicoupdates/SicovestoSetup.appinstaller">Instalar/Actualizar SICOVESTO</a>
+    </li>
+  </ol>
+  <p>Si Windows Defender SmartScreen muestra una advertencia, haz clic en "Más información" y luego en "Ejecutar de todas formas" (esto puede aparecer si no instalaste bien el certificado).</p>
+</body>
+</html>
