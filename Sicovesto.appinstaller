@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AppInstaller
 	Uri="https://valenrusso.github.io/sicoupdates/Sicovesto.appinstaller"
-	Version="1.0.4.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
+	Version="1.0.5.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
 	<MainBundle
 		Name="SICOVESTO"
-		Version="1.0.4.0"
+		Version="1.0.5.0"
 		Publisher="CN=valenrusso"
 		Uri="https://valenrusso.github.io/sicoupdates/Sicovesto.msixbundle" />
 	<UpdateSettings>
