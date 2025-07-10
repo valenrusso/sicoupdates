@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AppInstaller
-	Uri="https://valenrusso.github.io/sicoupdates/SicovestoSetup.appinstaller/SicovestoSetup.appinstaller"
+	Uri="https://valenrusso.github.io/sicoupdates/SicovestoSetup.appinstaller"
 	Version="1.1.0.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
 	<MainBundle
 		Name="SICOVESTO"
