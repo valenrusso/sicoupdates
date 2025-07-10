@@ -6,7 +6,7 @@
 		Name="SICOVESTO"
 		Version="1.1.0.0"
 		Publisher="CN=cyvsistemas"
-		Uri="https://valenrusso.github.io/sicoupdates/SicovestoSetup_1.1.0.0_Test/SicovestoSetup_1.1.0.0_x64.msixbundle" />
+		Uri="https://github.com/valenrusso/sicoupdates/releases/download/v1.1.0.0/SicovestoSetup_1.1.0.0_x64.msixbundle" />
 	<UpdateSettings>
 		<OnLaunch
 			HoursBetweenUpdateChecks="0" />
