@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AppInstaller
+	Uri="https://valenrusso.github.io/sicoupdates/SicovestoSetup.appinstaller/SicovestoSetup.appinstaller"
+	Version="1.1.0.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
+	<MainBundle
+		Name="SICOVESTO"
+		Version="1.1.0.0"
+		Publisher="CN=cyvsistemas"
+		Uri="https://valenrusso.github.io/sicoupdates/SicovestoSetup.appinstaller/SicovestoSetup_1.1.0.0_Test/SicovestoSetup_1.1.0.0_x64.msixbundle" />
+	<UpdateSettings>
+		<OnLaunch
+			HoursBetweenUpdateChecks="0" />
+	</UpdateSettings>
+</AppInstaller>
