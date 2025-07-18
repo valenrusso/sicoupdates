@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Factura</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .bill-container {
+            width: 750px;
+            margin: auto;
+            font-family: sans-serif;
+            font-size: 13px;
+        }
+
+        .bill-emitter-row td {
+            width: 50%;
+            border: 1px solid;
+            padding: 10px;
+            vertical-align: top;
+        }
+
+            .bill-emitter-row td:nth-child(2) {
+                padding-left: 60px;
+            }
+
+            .bill-emitter-row td:nth-child(1) {
+                padding-right: 60px;
+            }
+
+        /* ------------------------------------------------------------------- */
+        /* 1) Ajuste de la letra (TIPO_LETRA) para que ocupe bloque completo */
+        .bill-type {
+            border: 1px solid;
+            background: white;
+            width: 60px;
+            height: 60px;
+            /* ya no usamos margin: -25px; */
+            text-align: center;
+            font-size: 40px;
+            font-weight: 600;
+            /* clave: posición absoluta dentro del contenedor relativo */
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            /* Movemos hacia abajo hasta que la “A” quede justo en la línea divisoria */
+            /* Ajusta este valor (ej. -10px, -15px, etc.) según convenga */
+            top: 2px;
+            z-index: 2;
+        }
+        .bill-code {
+            font-size: 11px;
+            margin-top: -5px;
+        }
+        /* ------------------------------------------------------------------- */
+
+        .text-lg {
+            font-size: 30px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .row {
+            overflow: hidden;
+        }
+
+        .col-4 {
+            width: 33.333%;
+            float: left;
+        }
+
+        .col-3 {
+            width: 25%;
+            float: left;
+        }
+
+        .col-5 {
+            width: 41.666%;
+            float: left;
+        }
+
+        .col-6 {
+            width: 50%;
+            float: left;
+        }
+
+        .col-8 {
+            width: 66.666%;
+            float: left;
+        }
+
+        .col-10 {
+            width: 83.333%;
+            float: left;
+        }
+
+        .margin-b-0 {
+            margin-bottom: 0;
+        }
+
+        .bill-row td {
+            padding-top: 5px;
+        }
+
+            /* Cada <td> de una fila .bill-row que contenga un <div> como hijo,
+           dibuja borde arriba/abajo. Más adelante anularemos esos bordes
+           en la fila de QR/CAE para que solo quede la línea continua. */
+            .bill-row td > div {
+                border-top: 1px solid;
+                border-bottom: 1px solid;
+                margin: 0 -1px 0 -2px;
+                padding: 0 10px 13px 10px;
+            }
+
+        /* Por defecto, todas las celdas de .row-details se alinean verticalmente arriba */
+        .row-details td {
+            vertical-align: top;
+        }
+
+        .row-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .row-details table tr:nth-child(1) {
+                border-top: 1px solid;
+                border-bottom: 1px solid;
+                background: #c0c0c0;
+                font-weight: bold;
+                text-align: center;
+            }
+
+            .row-details table td {
+                padding: 5px;
+            }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .total-row td > div {
+            border-width: 2px;
+        }
+
+        #qrcode {
+            width: 40%;
+        }
+
+        .copy-label {
+            text-align: center;
+            width: 750px;
+            margin: auto;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            border: 1px solid;
+        }
+
+        .qr-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .qr-side {
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+            align-items: center;
+        }
+
+            .qr-side span {
+                font-size: 10px;
+            }
+
+        /* ------------------------------------------------------------------- */
+        /* 2) Estilos específicos para la fila que contiene QR + CAE  */
+        .qr-row td > div {
+            /* Anulamos el borde superior e inferior que tenía el <div> */
+            border-top: none;
+            border-bottom: none;
+            margin: 0; /* Eliminamos márgenes negativos */
+            padding: 0; /* Eliminamos paddings heredados */
+        }
+
+        .qr-row td {
+            /* Cada celda de esta fila tendrá su propio borde inferior */
+            border-bottom: 1px solid;
+            vertical-align: bottom; /* Alineamos el contenido al fondo de la celda */
+        }
+        /* ------------------------------------------------------------------- */
+
+        /* ------------------------------------------------------------------- */
+        /* 3) El bloque “Generado con SICOVESTO” dibuja su border-top
+           para que sea continuación exacta del borde inferior de la fila QR/CAE */
+        .generated-container {
+            border-top: 1px solid;
+            margin: 0; /* Sin márgenes adicionales */
+            padding: 0; /* Sin padding, para que la línea quede justo debajo */
+        }
+        /* ------------------------------------------------------------------- */
+
+        /* ------------------------------------------------------------------- */
+        /* 4) Para el bloque de “Ley 27.743” + “IVA incluido” + “Otros impuestos…”
+           quitamos cualquier margen extra en los párrafos y los alineamos como pediste. */
+        .ley-iva-row {
+            padding: 0; /* Sin espacio arriba/abajo */
+            margin-top: 10px; /* Sin margen involucrado */
+        }
+
+        .ley-iva-left {
+            float: left;
+            width: 50%;
+            padding-left: 0; /* Sin padding */
+            margin: 0; /* Sin margen */
+        }
+
+        .ley-iva-right {
+            float: right;
+            width: 50%;
+            text-align: right;
+            padding-right: 0; /* Sin padding */
+            margin: 0; /* Sin margen */
+        }
+
+            .ley-iva-right p {
+                margin: 0; /* En cada párrafo, anulamos márgenes */
+                padding: 0; /* Anulamos paddings */
+            }
+
+        .table-wrapper {
+            position: relative;
+            width: 750px; /* mismo ancho que .bill-container */
+            margin: auto;
+        }
+        /* ------------------------------------------------------------------- */
+    </style>
+</head>
+<body>
+    <!-- “ORIGINAL” o “COPIA” ocupa todo el ancho -->
+    <div class="copy-label">{COPIA}</div>
+
+    <div class="table-wrapper">
+        <!-- La letra (“A” o “B”) ahora en su propio bloque, debajo de “ORIGINAL” -->
+        <div class="bill-type" style="margin-bottom:0;">
+            <div>{TIPO_LETRA}</div>
+            <div class="bill-code">Cod. {COD_CBTE}</div>
+        </div>
+
+        <table class="bill-container">
+            <tr class="bill-emitter-row">
+                <td>
+                    <div class="text-lg text-center">{RAZON_SOCIAL_EMISOR}</div>
+                    <p><strong>Razón social:</strong> {RAZON_SOCIAL_EMISOR}</p>
+                    <p><strong>Domicilio Comercial:</strong> {DOMICILIO_EMISOR}</p>
+                    <p><strong>Condición Frente al IVA:</strong> {CONDICION_IVA_EMISOR}</p>
+                </td>
+                <td>
+                    <div>
+                        <div class="text-lg"><b>FACTURA</b></div>
+                        <div class="row">
+                            <p class="col-6 margin-b-0"><strong>Punto de Venta: {PTO_VTA}</strong></p>
+                            <p class="col-6 margin-b-0"><strong>Comp. Nro: {NUM_CBTE}</strong></p>
+                        </div>
+                        <p><strong>Fecha de Emisión:</strong> {FECHA_EMISION}</p>
+                        <p><strong>CUIT:</strong> {CUIT_EMISOR}</p>
+                        <p><strong>Ingresos Brutos:</strong> {IIBB}</p>
+                        <p><strong>Fecha de Inicio de Actividades:</strong> {FECHA_INICIO_ACT}</p>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="bill-row">
+                <td colspan="2">
+                    <div class="row" style="border-left: 1px solid; border-right: 1px solid;">
+                        <p class="col-4 margin-b-0"><strong>Período Facturado Desde: </strong>{PERIODO_DESDE}</p>
+                        <p class="col-3 margin-b-0"><strong>Hasta: </strong>{PERIODO_HASTA}</p>
+                        <p class="col-5 margin-b-0"><strong>Fecha de Vto. para el pago: </strong>{VTO_PAGO}</p>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="bill-row">
+                <td colspan="2">
+                    <div style="border-left: 1px solid; border-right: 1px solid;">
+                        <div class="row">
+                            <p class="col-4 margin-b-0"><strong>CUIT: </strong>{CUIT_CLIENTE}</p>
+                            <p class="col-8 margin-b-0"><strong>Apellido y Nombre / Razón social: </strong>{RAZON_SOCIAL_CLIENTE}</p>
+                        </div>
+                        <div class="row">
+                            <p class="col-6 margin-b-0"><strong>Condición Frente al IVA: </strong>{CONDICION_IVA_CLIENTE}</p>
+                            <p class="col-6 margin-b-0"><strong>Domicilio: </strong>{DOMICILIO_CLIENTE}</p>
+                        </div>
+                        <p><strong>Método de pago: </strong>{CONDICION_VENTA}</p>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="bill-row row-details">
+                <td colspan="2">
+                    <div>
+                        <table>
+                            {ITEMS_ROWS}
+                        </table>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="bill-row total-row">
+                <td colspan="2">
+                    <div>
+                        <div class="row text-right">
+                            <p class="col-10 margin-b-0"><strong>Subtotal:</strong></p>
+                            <p class="col-2 margin-b-0"><strong>{SUBTOTAL} {MONEDA}</strong></p>
+                        </div>
+                        <div class="row text-right">
+                            <p class="col-10 margin-b-0"><strong>Descuentos:</strong></p>
+                            <p class="col-2 margin-b-0"><strong>{DESCUENTO} {MONEDA}</strong></p>
+                        </div>
+                        <div class="row text-right">
+                            <p class="col-10 margin-b-0"><strong>TOTAL:</strong></p>
+                            <p class="col-2 margin-b-0"><strong>{TOTAL} {MONEDA}</strong></p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <!-- ------------------------------------------------------------- -->
+            <!-- 4) Fila “Régimen … Ley 27.743” y “IVA incluido” + “Otros impuestos…” sin márgenes extra -->
+            {LEY_IVA_ROW}
+            <!-- ------------------------------------------------------------- -->
+            <!-- 5) Fila de QR + CAE con clase “qr-row” -->
+            <tr class="bill-row row-details qr-row">
+                <!-- Celda QR -->
+                <td>
+                    <div>
+                        <div class="qr-container">
+                            <img id="qrcode" src="{QR_BASE64}" alt="QR">
+                            <div class="qr-side">
+                                <img style="height:80px" src="{ARCA_LOGO}" alt="ARCA Logo">
+                                <span>Esta administración no se responsabiliza por la veracidad de los datos ingresados en el detalle de la operación.</span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <!-- Celda CAE -->
+                <td>
+                    <!-- Como en .qr-row td > div anulamos todos los borders, no aparece línea arriba de CAE -->
+                    <div>
+                        <div class="row text-right margin-b-10">
+                            <strong>CAE Nº:&nbsp;</strong> {CAE_NUM}
+                        </div>
+                        <div class="row text-right">
+                            <strong>Fecha de Vto. de CAE:&nbsp;</strong> {CAE_VTO}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <!-- ------------------------------------------------------------- -->
+            <!-- 6) Fila “Generado con SICOVESTO” con borde superior que continúa la línea anterior -->
+            <tr class="bill-row">
+                <td colspan="2">
+                    <div class="generated-container">
+                        <div class="row text-center" style="margin-top: 10px;">
+                            <span>Generado con SICOVESTO</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</body>
+</html>
