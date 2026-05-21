@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AppInstaller
 	Uri="https://valenrusso.github.io/sicoupdates/SicovestoSetup.appinstaller"
-	Version="1.4.3.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
+	Version="1.4.4.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
 	<MainBundle
 		Name="SICOVESTO"
-		Version="1.4.3.0"
+		Version="1.4.4.0"
 		Publisher="CN=cyvsistemas"
-		Uri="https://github.com/valenrusso/sicoupdates/releases/download/v1.4.3.0/SicovestoSetup_1.4.3.0_x64.msixbundle" />
+		Uri="https://github.com/valenrusso/sicoupdates/releases/download/v1.4.4.0/SicovestoSetup_1.4.4.0_x64.msixbundle" />
 	<Dependencies>
 		<Package
 			Name="Microsoft.VCLibs.140.00.UWPDesktop"
 			Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
 			ProcessorArchitecture="x64"
-			Uri="https://valenrusso.github.io/sicoupdates/SicovestoSetup_1.4.3.0_Test/Dependencies/x64/Microsoft.VCLibs.x64.14.00.Desktop.appx"
+			Uri="https://valenrusso.github.io/sicoupdates/SicovestoSetup_1.4.4.0_Test/Dependencies/x64/Microsoft.VCLibs.x64.14.00.Desktop.appx"
 			Version="14.0.33728.0" />
 	</Dependencies>
 	<UpdateSettings>
